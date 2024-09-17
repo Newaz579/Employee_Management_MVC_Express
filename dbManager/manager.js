@@ -50,6 +50,18 @@ function updateEmployeeManager(id, updatedData){
     })
 }
 
+function searchEmployeeManager(attribute, value){
+    const sql = 'SELECT * FROM employees WHERE ?? LIKE ?';
+    return new Promise((resolve, reject) => {
+        db.query(sql, [attribute, `${value}`], (err, result) => {
+            if(err){
+                return reject(err);
+            }
+            return resolve(result);
+        })
+    })
+}
+
 function deleteEmployeeManager(id){
     const sql = 'DELETE FROM employees WHERE id = ?';
     return new Promise((resolve, reject) => {
@@ -67,5 +79,6 @@ module.exports = {
     getSingleEmployeeManager,
     addEmployeeManager,
     updateEmployeeManager,
+    searchEmployeeManager,
     deleteEmployeeManager
 }

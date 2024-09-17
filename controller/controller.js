@@ -1,4 +1,4 @@
-const { getAllEmployeeManager, getSingleEmployeeManager, addEmployeeManager, updateEmployeeManager, deleteEmployeeManager } = require("../dbManager/manager");
+const { getAllEmployeeManager, getSingleEmployeeManager, addEmployeeManager, updateEmployeeManager, deleteEmployeeManager, searchEmployeeManager } = require("../dbManager/manager");
 
 async function addEmployeeController(req, res){
     try{
@@ -68,9 +68,14 @@ async function updateEmployeeController(req, res){
 
 async function searchEmployeeController(req, res) {
     try{
-
+        const {attribute, value} = req.query;
+        const results = await searchEmployeeManager(attribute, value);
+        res.writeHead(200, {'Content-Type':'application/json'});
+        res.end(JSON.stringify(results));
     } catch(err){
         console.error(err);
+        res.writeHead(500, {'Content-Type':'text/plain'});
+        res.end('Error Searching Employees...');
     }
 }
 
