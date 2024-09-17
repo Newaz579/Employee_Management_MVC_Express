@@ -15,7 +15,22 @@ function addEmployeeManager(employee){
 }
 
 function getAllEmployeeManager(){
-    const sql = "SELECT * FROM employees";
+    // const sql = "SELECT * FROM employees";
+    const sql = `SELECT 
+    id, 
+    name, 
+    age, 
+    gender, 
+    birthdate, 
+    email, 
+    contactNo, 
+    emergencyContactNo, 
+    bloodGroup, 
+    presentAddress, 
+    permanentAddress, 
+    department
+    FROM employees`;
+
     return new Promise((resolve, reject) => {
         db.query(sql, (err, results) => {
             if(err){
@@ -27,7 +42,21 @@ function getAllEmployeeManager(){
 }
 
 function getSingleEmployeeManager(id){
-    const sql = "SELECT * FROM employees WHERE id = ?"
+    // const sql = `SELECT * FROM employees WHERE id = ?`
+    const sql = `SELECT 
+                    id, 
+                    name, 
+                    age, 
+                    gender, 
+                    birthdate, 
+                    email, 
+                    contactNo, 
+                    emergencyContactNo, 
+                    bloodGroup, 
+                    presentAddress, 
+                    permanentAddress, 
+                    department
+                    FROM employees WHERE id = ?`;
     return new Promise((resolve, reject) => {
         db.query(sql, [id], (err, results) => {
             if(err){
@@ -51,7 +80,19 @@ function updateEmployeeManager(id, updatedData){
 }
 
 function searchEmployeeManager(attribute, value){
-    const sql = 'SELECT * FROM employees WHERE ?? LIKE ?';
+    const sql = `SELECT id, 
+                    name, 
+                    age, 
+                    gender, 
+                    birthdate, 
+                    email, 
+                    contactNo, 
+                    emergencyContactNo, 
+                    bloodGroup, 
+                    presentAddress, 
+                    permanentAddress, 
+                    department
+                    FROM employees WHERE ?? LIKE ?`;
     return new Promise((resolve, reject) => {
         db.query(sql, [attribute, `${value}`], (err, result) => {
             if(err){

@@ -5,12 +5,10 @@ async function addEmployeeController(req, res){
         const employee = req.body;
         // console.log(employee);
         await addEmployeeManager(employee);
-        res.writeHead(200, {'Content-Type':'text/plain'});
-        res.end('Employee Added..');
+        res.status(200).send('Employee Added');
     } catch(err){
         console.error(err);
-        res.writeHead(500, {'Content-Type':'text/plain'});
-        res.end('Failed Add Employee');
+        res.status(500).send('Failed to Add Employee');
     }
 }
 
@@ -18,12 +16,10 @@ async function getAllEmployeeController(req, res){
     // console.log('hello');
     try{
         const results = await getAllEmployeeManager();
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(results));
+        res.status(200).json(results);
     } catch(err){
         console.error(err);
-        res.writeHead(500, {'Content-Type': 'text/plain'});
-        res.end('Failed to Retrieved Employees');
+        res.status(500).send('Failed to Retrieve Employees');
     }
 }
 
@@ -33,22 +29,16 @@ async function getSingleEmployeeController(req, res){
         const id = req.params.id;
         // console.log(id);
         if (isNaN(Number(id))) {
-            res.writeHead(400, { 'Content-Type': 'text/plain' });
-            res.end('Invalid employee ID');
-            return;
+            return res.status(400).send('Invalid employee ID');
         }
         const result = await getSingleEmployeeManager(id);
         if(result.length === 0){
-            res.writeHead(404, {'Content-type':'text/plain'});
-            res.end('Employee Not Found');
-            return;
+            return res.status(404).send('Employee Not Found');
         }
-        res.writeHead(200, {'Content-Type':'application/json'});
-        res.end(JSON.stringify(result[0]));
+        res.status(200).json(result[0]);
     } catch(err){
         console.error(err);
-        res.writeHead(500, {'Content-Type':'text/plain'});
-        res.end('error finding employee');
+        res.status(500).send('Error finding employee'); 
     }
 }
 
@@ -57,12 +47,10 @@ async function updateEmployeeController(req, res){
         const id = req.params.id;
         const updatedData = req.body;
         await updateEmployeeManager(id, updatedData);
-        res.writeHead(200, {'Content-Type':'text/plain'});
-        res.end('Update Employee...')
+        res.status(200).send('Employee Updated');
     } catch(err){
         console.error(err);
-        res.writeHead(500, {'Content-Type':'text/plain'});
-        res.end('Failed to Update Employee');
+        res.status(500).send('Failed to Update Employee');
     }
 }
 
@@ -70,12 +58,10 @@ async function searchEmployeeController(req, res) {
     try{
         const {attribute, value} = req.query;
         const results = await searchEmployeeManager(attribute, value);
-        res.writeHead(200, {'Content-Type':'application/json'});
-        res.end(JSON.stringify(results));
+        res.status(200).json(results);
     } catch(err){
         console.error(err);
-        res.writeHead(500, {'Content-Type':'text/plain'});
-        res.end('Error Searching Employees...');
+        res.status(500).send('Error Searching Employees...');
     }
 }
 
@@ -83,12 +69,10 @@ async function deleteEmployeeController(req, res) {
     try{
         const id = req.params.id;
         await deleteEmployeeManager(id);
-        res.writeHead(200, {'Content-Type':'text/plain'});
-        res.end('Delete Employee...');
+        res.status(200).send('Delete Employee...');
     } catch(err){
         console.error(err);
-        res.writeHead(500, {'Content-Type':'text/plain'});
-        res.end('Failed to Delete Employee');
+        res.status(500).send('Failed to Delete Employee');
     }
 }
 
